@@ -30,25 +30,25 @@ export class MapHoc extends React.Component<IMapProps, IMapState> {
 
     public render() {
 
-        const targetMarkers = this.props.locations.map(loc => <Marker position={{
-            lat: loc.latestUserLocation.latitude,
-            lng: loc.latestUserLocation.longitude
-        }} />);
-        const userMarker = <Marker position={{
-            lat: this.props.userlocation.latitude,
-            lng: this.props.userlocation.longitude
-        }}/>;
+        //const targetMarkers = this.props.locations.map(loc => <Marker position={{
+        //    lat: loc.latestUserLocation.latitude,
+        //    lng: loc.latestUserLocation.longitude
+        //}} />);
+        //const userMarker = <Marker position={{
+        //    lat: this.props.userlocation.latitude,
+        //    lng: this.props.userlocation.longitude
+        //}}/>;
 
-        const allMarkers = targetMarkers.push(userMarker);
-        console.log(allMarkers);
-        console.log(userMarker);
+        //const allMarkers = targetMarkers.push(userMarker);
+        //console.log(allMarkers);
+        //console.log(userMarker);
 
         const MyMapComponent = withScriptjs(withGoogleMap((props) =>
             <GoogleMap
                 defaultZoom={8}
                 defaultCenter={{ lat: 51.1, lng: -0.1 }}
             >
-                {targetMarkers}
+                {this.GetMarkers(this.props.locations, this.props.userlocation)}
             </GoogleMap>
         ))
 
@@ -58,5 +58,21 @@ export class MapHoc extends React.Component<IMapProps, IMapState> {
                    containerElement={<div style={{ height: `400px` }} />}
                    mapElement={<div style={{ height: `100%` }} />}
                />
+    }
+
+
+    private GetMarkers(locations: UserLocation[], currentLocation: ComputedLocation) {
+        const targetMarkers = locations.map(loc => <Marker position={{
+            lat: loc.latestUserLocation.latitude,
+            lng: loc.latestUserLocation.longitude
+        }} />);
+        const userMarker = <Marker position={{
+            lat: currentLocation.latitude,
+            lng: currentLocation.longitude
+        }} />;
+        const allMarkers = targetMarkers.push(userMarker);
+
+        return targetMarkers;
+
     }
 }
