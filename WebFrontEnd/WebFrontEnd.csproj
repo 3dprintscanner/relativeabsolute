@@ -1,0 +1,116 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
+    <TypeScriptToolsVersion>Latest</TypeScriptToolsVersion>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.5" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Files not to publish (note that the 'dist' subfolders are re-added below) -->
+    <Content Remove="ClientApp\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="node_modules\%40types\google-maps\package.json" />
+    <Content Include="node_modules\%40types\google-maps\types-metadata.json" />
+    <Content Include="node_modules\%40types\googlemaps\package.json" />
+    <Content Include="node_modules\%40types\history\package.json" />
+    <Content Include="node_modules\%40types\markerclustererplus\package.json" />
+    <Content Include="node_modules\%40types\react-dom\package.json" />
+    <Content Include="node_modules\%40types\react-hot-loader\package.json" />
+    <Content Include="node_modules\%40types\react-router-dom\package.json" />
+    <Content Include="node_modules\%40types\react-router\package.json" />
+    <Content Include="node_modules\%40types\react\package.json" />
+    <Content Include="node_modules\%40types\webpack-env\package.json" />
+    <Content Include="node_modules\%40types\webpack-env\types-metadata.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="node_modules\%40types\google-maps\README.md" />
+    <None Include="node_modules\%40types\googlemaps\LICENSE" />
+    <None Include="node_modules\%40types\googlemaps\README.md" />
+    <None Include="node_modules\%40types\history\LICENSE" />
+    <None Include="node_modules\%40types\history\README.md" />
+    <None Include="node_modules\%40types\markerclustererplus\LICENSE" />
+    <None Include="node_modules\%40types\markerclustererplus\README.md" />
+    <None Include="node_modules\%40types\react-dom\LICENSE" />
+    <None Include="node_modules\%40types\react-dom\README.md" />
+    <None Include="node_modules\%40types\react-hot-loader\LICENSE" />
+    <None Include="node_modules\%40types\react-hot-loader\README.md" />
+    <None Include="node_modules\%40types\react-router-dom\LICENSE" />
+    <None Include="node_modules\%40types\react-router-dom\README.md" />
+    <None Include="node_modules\%40types\react-router\LICENSE" />
+    <None Include="node_modules\%40types\react-router\README.md" />
+    <None Include="node_modules\%40types\react\LICENSE" />
+    <None Include="node_modules\%40types\react\README.md" />
+    <None Include="node_modules\%40types\webpack-env\README.md" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\LocationSync\LocationSync.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <TypeScriptCompile Include="node_modules\%40types\google-maps\index.d.ts" />
+    <TypeScriptCompile Include="node_modules\%40types\googlemaps\index.d.ts" />
+    <TypeScriptCompile Include="node_modules\%40types\history\createBrowserHistory.d.ts" />
+    <TypeScriptCompile Include="node_modules\%40types\history\createHashHistory.d.ts" />
+    <TypeScriptCompile Include="node_modules\%40types\history\createMemoryHistory.d.ts" />
+    <TypeScriptCompile Include="node_modules\%40types\history\createTransitionManager.d.ts" />
+    <TypeScriptCompile Include="node_modules\%40types\history\DOMUtils.d.ts" />
+    <TypeScriptCompile Include="node_modules\%40types\history\ExecutionEnvironment.d.ts" />
+    <TypeScriptCompile Include="node_modules\%40types\history\index.d.ts" />
+    <TypeScriptCompile Include="node_modules\%40types\history\LocationUtils.d.ts" />
+    <TypeScriptCompile Include="node_modules\%40types\history\PathUtils.d.ts" />
+    <TypeScriptCompile Include="node_modules\%40types\markerclustererplus\index.d.ts" />
+    <TypeScriptCompile Include="node_modules\%40types\react-dom\index.d.ts" />
+    <TypeScriptCompile Include="node_modules\%40types\react-dom\server\index.d.ts" />
+    <TypeScriptCompile Include="node_modules\%40types\react-dom\test-utils\index.d.ts" />
+    <TypeScriptCompile Include="node_modules\%40types\react-hot-loader\index.d.ts" />
+    <TypeScriptCompile Include="node_modules\%40types\react-router-dom\index.d.ts" />
+    <TypeScriptCompile Include="node_modules\%40types\react-router\index.d.ts" />
+    <TypeScriptCompile Include="node_modules\%40types\react\index.d.ts" />
+    <TypeScriptCompile Include="node_modules\%40types\webpack-env\index.d.ts" />
+  </ItemGroup>
+
+  <Target Name="DebugRunWebpack" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('wwwroot\dist') ">
+    <!-- Ensure Node.js is installed -->
+    <Exec Command="node --version" ContinueOnError="true">
+      <Output TaskParameter="ExitCode" PropertyName="ErrorCode" />
+    </Exec>
+    <Error Condition="'$(ErrorCode)' != '0'" Text="Node.js is required to build and run this project. To continue, please install Node.js from https://nodejs.org/, and then restart your command prompt or IDE." />
+
+    <!-- In development, the dist files won't exist on the first run or when cloning to
+         a different machine, so rebuild them if not already present. -->
+    <Message Importance="high" Text="Performing first-run Webpack build..." />
+    <Exec Command="node node_modules/webpack/bin/webpack.js --config webpack.config.vendor.js" />
+    <Exec Command="node node_modules/webpack/bin/webpack.js" />
+  </Target>
+
+  <Target Name="PublishRunWebpack" AfterTargets="ComputeFilesToPublish">
+    <!-- As part of publishing, ensure the JS resources are freshly built in production mode -->
+    <Exec Command="npm install" />
+    <Exec Command="node node_modules/webpack/bin/webpack.js --config webpack.config.vendor.js --env.prod" />
+    <Exec Command="node node_modules/webpack/bin/webpack.js --env.prod" />
+
+    <!-- Include the newly-built files in the publish output -->
+    <ItemGroup>
+      <DistFiles Include="wwwroot\dist\**; ClientApp\dist\**" />
+      <ResolvedFileToPublish Include="@(DistFiles->'%(FullPath)')" Exclude="@(ResolvedFileToPublish)">
+        <RelativePath>%(DistFiles.Identity)</RelativePath>
+        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      </ResolvedFileToPublish>
+    </ItemGroup>
+  </Target>
+
+</Project>
