@@ -1,8 +1,12 @@
-﻿import * as React from 'react';
+﻿/// <reference path="../../node_modules/@types/googlemaps/index.d.ts"/>
+
+
+import * as React from 'react';
 import { RouteComponentProps } from 'react-router';
 import 'isomorphic-fetch';
 
-import { MapHoc } from "./MapHoc"
+import { MapHoc } from "./MapHoc";
+import { DistanceTable} from './DistanceTable';
 
 interface MeetState {
     meetResponse: MeetLocationResponse;
@@ -48,23 +52,28 @@ export class MapMeet extends React.Component<RouteComponentProps<{}>, MeetState>
             ? <p><em>Loading...</em></p>
             : <MapHoc locations={this.state.meetResponse.targetLocations} userlocation={this.state.meetResponse.currentLocation} />;
 
+        let valuesTable = !this.state.loaded
+            ? <p><em>Loading Values..</em></p>
+            : <DistanceTable locations={this.state.meetResponse.targetLocations} userlocation={this.state.meetResponse
+                .currentLocation}/>;
 
         return <div>
-            <h1>Counter</h1>
+            <h1>Person Tracker</h1>
 
-            <p>Lets See where others are...</p>
-
-            <input type="text"/>
             <button onClick={() => {
                 console.log("button clicked");
-                 this.incrementCounter()
-            } }>Load</button>
-            {contents}
+                this.incrementCounter();
+            }}>LoadNearby</button>
+            <div className="row">
+                {contents}
+            </div>
+            <div className="row">
+                {valuesTable}
+            </div>
     </div>;
 }
 
     incrementCounter() {
-        var thisvar = 'asdadsad';
         fetch('api/Locations/DummyMeetLocations')
             .then(response => response.json() as Promise<MeetLocationResponse>)
             .then(data => {
