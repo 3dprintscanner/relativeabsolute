@@ -41,8 +41,8 @@ namespace TranslocationSyncService.Controllers
             {
                 CurrentLocation = new ComputedLocation()
                 {
-                    Latitude = 51.1,
-                    Longitude = -0.1
+                    Latitude = 51.575389,
+                    Longitude = -1.314649
                 },
                 SenderDeviceId = "1",
                 TargetLocations = CreateDummyUserLocations().ToArray()
@@ -62,8 +62,8 @@ namespace TranslocationSyncService.Controllers
                     UserId = i.ToString(),
                     LatestUserLocation = new ComputedLocation()
                     {
-                        Latitude = 51.195 + new Random().NextDouble(),
-                        Longitude = -0.1 + new Random().NextDouble()
+                        Latitude = 51.575389 + (new Random().NextDouble() - 0.5) / 85,
+                        Longitude = -1.314649 + (new Random().NextDouble() - 0.5) / 85
                     }
                 };
             }

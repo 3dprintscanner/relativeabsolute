@@ -31,8 +31,8 @@ export class MapHoc extends React.Component<IMapProps, IMapState> {
 
         const MyMapComponent = withScriptjs(withGoogleMap((props) =>
             <GoogleMap
-                defaultZoom={8}
-                defaultCenter={{ lat: 51.1, lng: -0.1 }}>
+                defaultZoom={15}
+                defaultCenter={{ lat: 51.575389, lng: -1.314649 }}>
                 {polylines}
             </GoogleMap>
         ));

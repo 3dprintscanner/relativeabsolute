@@ -6,7 +6,8 @@ import { RouteComponentProps } from 'react-router';
 import 'isomorphic-fetch';
 
 import { MapHoc } from "./MapHoc";
-import { DistanceTable} from './DistanceTable';
+import { DistanceTable } from './DistanceTable';
+import { SignalRChat } from './SignalR';
 
 interface MeetState {
     meetResponse: MeetLocationResponse;
@@ -69,6 +70,9 @@ export class MapMeet extends React.Component<RouteComponentProps<{}>, MeetState>
             </div>
             <div className="row">
                 {valuesTable}
+            </div>
+            <div className="row">
+                <SignalRChat/>
             </div>
     </div>;
 }

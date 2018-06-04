@@ -3,6 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "devDependencies": {
+    "@aspnet/signalr": "^1.0.0-rc1-update1",
     "@types/googlemaps": "^3.30.8",
     "@types/history": "4.6.0",
     "@types/markerclustererplus": "^2.1.33",
@@ -11,6 +12,7 @@
     "@types/react-hot-loader": "3.0.3",
     "@types/react-router": "4.0.12",
     "@types/react-router-dom": "4.0.5",
+    "@types/signalr": "^2.2.35",
     "@types/webpack-env": "1.13.0",
     "aspnet-webpack": "^2.0.1",
     "aspnet-webpack-react": "^3.0.0",
@@ -28,6 +30,7 @@
     "react-google-maps": "^9.4.5",
     "react-hot-loader": "3.0.0-beta.7",
     "react-router-dom": "4.1.1",
+    "signalr": "^2.2.3",
     "style-loader": "0.18.2",
     "typescript": "2.4.1",
     "url-loader": "0.5.9",
