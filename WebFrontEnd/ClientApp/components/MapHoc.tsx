@@ -1,9 +1,4 @@
-﻿/// <reference path="../../node_modules/@types/googlemaps/index.d.ts"/>
-/// <reference path="../../node_modules/@types/markerclustererplus/index.d.ts"/>
-/// <reference path="../../node_modules/@types/react-router/index.d.ts"/>
-/// <reference path="../../node_modules/@types/react/index.d.ts"/>
-
-import * as React from 'react';
+﻿import * as React from 'react';
 import { withScriptjs, withGoogleMap, GoogleMap, Marker, Polyline } from "react-google-maps"
 import { UserLocation, ComputedLocation } from './MapMeet';
 
@@ -44,7 +39,7 @@ export class MapHoc extends React.Component<IMapProps, IMapState> {
             mapElement={<div style={{ height: `100%` }} />} />;
     }
 
-    private CreateDirectionPolyLines(locations: UserLocation[], currentLocation: ComputedLocation) {
+    private CreateDirectionPolyLines(locations: UserLocation[], currentLocation: ComputedLocation) : React.ReactElement<Polyline>[] {
 
         const polylines = locations.map(loc => <Polyline
             path={
@@ -63,17 +58,17 @@ export class MapHoc extends React.Component<IMapProps, IMapState> {
 
     }
 
-    private GetMarkers(locations: UserLocation[], currentLocation: ComputedLocation) {
+    private GetMarkers (locations: UserLocation[], currentLocation: ComputedLocation) : React.ReactElement<Marker>[] {
 
         const targetMarkers = locations.map(loc => <Marker position={{
             lat: loc.latestUserLocation.latitude,
             lng: loc.latestUserLocation.longitude
-        }} />);
-        const userMarker = <Marker position={{
-            lat: currentLocation.latitude,
-            lng: currentLocation.longitude
-        }} />;
-        targetMarkers.push(userMarker);
+        }} />).concat([
+            <Marker position={{
+                lat: currentLocation.latitude,
+                lng: currentLocation.longitude
+            }} />
+        ]);
 
         return targetMarkers;
 

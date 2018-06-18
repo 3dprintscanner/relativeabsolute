@@ -1,7 +1,4 @@
-﻿/// <reference path="../../node_modules/@types/signalr/index.d.ts"/>
-
-
-import * as React from 'react';
+﻿import * as React from 'react';
 import { HubConnectionBuilder, HubConnection } from '@aspnet/signalr';
 
 
